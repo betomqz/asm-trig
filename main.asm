@@ -5,6 +5,7 @@ TITLE main            (main.asm)
 INCLUDE Irvine32.inc
 
 EXTERN PideRadianes:PROC
+EXTERN ConvierteRango:PROC
 
 PUBLIC strComa
 PUBLIC strDivOut
@@ -23,7 +24,19 @@ main PROC
     finit                       ; inicializa el FPU
 
     ; Pide radianes y calcula
-    CALL PideRadianes
+    ; CALL PideRadianes
+
+    ; convierte grados
+    MOV ECX, 0
+    .WHILE ECX < 361
+        PUSH ECX
+        CALL ConvierteRango
+        POP EAX
+        CALL WriteInt
+        CALL CrLf
+        ADD ECX, 10
+    .ENDW
+
 
     ; Despedida
     mov  edx, OFFSET adios
