@@ -36,11 +36,9 @@ PUBLIC PideGrados
 PideGrados PROC
 
     ; --- Pide los grados al usuario ---
-    ; MOV EDX, OFFSET strIngDeg
-    ; CALL WriteString
-    ; CALL ReadInt                ; EAX = valor leído
-    ; TODO: uncomment last part and remove this
-    MOV EAX, 360
+    MOV EDX, OFFSET strIngDeg
+    CALL WriteString
+    CALL ReadInt                ; EAX = valor leído
 
     ; --- Guarda deg ---
     MOV deg_val, EAX
