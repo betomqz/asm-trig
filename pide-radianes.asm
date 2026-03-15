@@ -16,10 +16,8 @@ rad_sin      REAL8 ?            ; sin(x)
 rad_cos      REAL8 ?            ; cos(x)
 rad_f1       REAL8 ?            ; f1
 
-strHeaderRad    BYTE "Radianes, sin(x), cos(x), f1",0
-
-; TODO: remove this
-num1     REAL8 1.5
+strHeaderRad BYTE "Radianes, sin(x), cos(x), f1",0
+strIngRad    BYTE "Ingrese los radianes: ",0
 
 .CODE
 ; -------------------------------------------------------------------------------
@@ -35,8 +33,15 @@ num1     REAL8 1.5
 PUBLIC PideRadianes
 PideRadianes PROC
 
-    ; --- ejemplo: eval (1.5)
-    FLD num1
+    ; --- Pide los radianes al usuario ---
+    MOV EDX, OFFSET strIngRad
+    CALL WriteString
+    CALL ReadFloat              ; ST(0) = valor leído
+
+    ; --- Guarda x y lo deja en ST(0) para EvalSinCos ---
+    FST rad_x                   ; guarda x, ST(0) = x todavía
+
+    ; --- Evalúa funciones trigonométricas ---
     CALL EvalSinCos
 
     ; --- Guarda resultados y limpia el FPU ---
@@ -54,7 +59,7 @@ PideRadianes PROC
 
     ; --- Imprime: radianes, sin(x), cos(x), f1 ---
     ; Imprimir x (radianes)
-    FLD num1                    ; ST(0) = x
+    FLD rad_x                   ; ST(0) = x
     CALL WriteFloat
     FSTP rad_x                  ; limpia ST(0)
     MOV EDX, OFFSET strComa
