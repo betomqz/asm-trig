@@ -1,7 +1,7 @@
 TITLE eval-sin-cos            (eval-sin-cos.asm)
 
-; Evalúa las funciones trigonométricas
-; Es un módulo.
+; Módulo para evaluar las funciones trigonométricas sin(x), cos(x) e identidad
+; pitagórica (f1(x) = sin^2(x) + cos^2(x)).
 
 INCLUDE Irvine32.inc
 
@@ -17,12 +17,12 @@ EXTERN SquareFloat:PROC
 ;   Evalúa seno, coseno e identidad pitagórica.
 ;   Recibe x (radianes) en ST(0).
 ;   Regresa en el stack del FPU (de tope a fondo):
-;       ST(0) = f1 = sin^2(x) + cos^2(x)
+;       ST(0) = f1(x) = sin^2(x) + cos^2(x)
 ;       ST(1) = cos(x)
 ;       ST(2) = sin(x)
 ;
 ; Entrada FPU:   ST(0) = x
-; Salida  FPU:   ST(0) = f1,  ST(1) = cos(x),  ST(2) = sin(x)
+; Salida  FPU:   ST(0) = f1(x),  ST(1) = cos(x),  ST(2) = sin(x)
 ; -------------------------------------------------------------------------------
 PUBLIC EvalSinCos
 EvalSinCos PROC
