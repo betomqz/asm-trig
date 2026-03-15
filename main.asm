@@ -6,14 +6,16 @@ INCLUDE Irvine32.inc
 
 EXTERN PideRadianes:PROC
 EXTERN PideGrados:PROC
+EXTERN TablaGrados:PROC
 
-PUBLIC strComa
-PUBLIC strDivOut
 
 .DATA
 adios           BYTE 0dh,0ah,"ADIOS.",0
 
+PUBLIC strComa
 strComa         BYTE ", ",0
+
+PUBLIC strDivOut
 strDivOut       BYTE "----------------------------------------"
                 BYTE "----------------------------------------",0
 
@@ -28,6 +30,9 @@ main PROC
 
     ; Pide grados y calcula
     CALL PideGrados
+
+    ; Imprime tabla
+    CALL TablaGrados
 
     ; Despedida
     mov  edx, OFFSET adios
