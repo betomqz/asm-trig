@@ -5,6 +5,7 @@ TITLE main            (main.asm)
 INCLUDE Irvine32.inc
 
 EXTERN PideRadianes:PROC
+EXTERN PideGrados:PROC
 
 PUBLIC strComa
 PUBLIC strDivOut
@@ -24,6 +25,9 @@ main PROC
 
     ; Pide radianes y calcula
     CALL PideRadianes
+
+    ; Pide grados y calcula
+    CALL PideGrados
 
     ; Despedida
     mov  edx, OFFSET adios
