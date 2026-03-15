@@ -1,7 +1,6 @@
-TITLE pide-grados            (pide-grados.asm)
+TITLE tabla-grados            (tabla-grados.asm)
 
-; Módulo para pedir al usuario los grados y luego evaluar las funciones
-; trigonométricas.
+; Módulo para imprimir una tabla con los resultados desde 0 a 360 grados.
 
 INCLUDE Irvine32.inc
 
@@ -9,17 +8,13 @@ EXTERN EvalGrados:PROC
 EXTERN ImprimeGrados:PROC
 
 EXTERN strDivOut:BYTE
+EXTERN strHeaderDeg:BYTE
 
 .DATA
-deg_val      DWORD ?            ; valor de grados a usar
-
-PUBLIC strHeaderDeg             ; PUBLIC porque tabla-grados también lo usa
-strHeaderDeg BYTE "Grados, radianes, sin(x), cos(x), f1",0
-strIngDeg    BYTE "Ingrese los grados: ",0
 
 .CODE
 ; -------------------------------------------------------------------------------
-; PideGrados
+; TablaGrados
 ;   Pide al usuario un valor en grados (float), calcula seno, coseno e
 ;   identidad pitagórica, e imprime los resultados en formato:
 ;       "Grados, radianes, sin(x), cos(x), f1"
@@ -28,16 +23,10 @@ strIngDeg    BYTE "Ingrese los grados: ",0
 ; Salida:   imprime en pantalla
 ; No modifica el stack del FPU al regresar.
 ; -------------------------------------------------------------------------------
-PUBLIC PideGrados
-PideGrados PROC
+PUBLIC TablaGrados
+TablaGrados PROC
 
-    ; --- Pide los grados al usuario ---
-    MOV EDX, OFFSET strIngDeg
-    CALL WriteString
-    CALL ReadInt                ; EAX = valor leído
-
-    ; --- Guarda deg ---
-    MOV deg_val, EAX
+    PUSH ECX
 
     ; --- Imprime encabezado ---
     MOV EDX, OFFSET strDivOut
@@ -47,20 +36,28 @@ PideGrados PROC
     CALL WriteString
     CALL CrLf
 
-    ; --- Evalúa funciones trigonométricas ---
-    PUSH deg_val
-    CALL EvalGrados
+    MOV ECX, 0
+    .WHILE ECX < 361
 
-    ; --- Manda a imprimir los valores almacenados en el FPU stack ---
-    PUSH deg_val
-    CALL ImprimeGrados
+        ; --- Evalúa funciones trigonométricas ---
+        PUSH ECX
+        CALL EvalGrados
+
+        ; --- Manda a imprimir los valores almacenados en el FPU stack ---
+        PUSH ECX
+        CALL ImprimeGrados
+
+        ; --- Incrementa en saltos de 10 ---
+        ADD ECX, 10
+    .ENDW
 
     ; --- Línea divisoria final ---
     MOV EDX, OFFSET strDivOut
     CALL WriteString
     CALL CrLf
 
+    POP ECX
     RET
-PideGrados ENDP
+TablaGrados ENDP
 
 END
