@@ -7,7 +7,7 @@ ASMFLAGS = -I./Irvine -zcw -elf
 
 # Config
 TARGET  = asm-trig
-MODULES = main sine-n cosine-n square-float
+MODULES = main sine-n cosine-n square-float eval-sin-cos pide-radianes
 
 OBJS = $(addsuffix .o, $(MODULES))
 
