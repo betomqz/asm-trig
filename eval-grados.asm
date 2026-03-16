@@ -77,8 +77,8 @@ EvalGrados PROC
     CALL EvalSinCos
     ; ST(0) = f1,  ST(1) = cos(x),  ST(2) = sin(x),  ST(3) = rad_true
 
-    POP  EAX                    ; restaura EAX
     POP  EBX                    ; restaura EBX
+    POP  EAX                    ; restaura EAX
     RET  4                      ; limpia el argumento que se había pasado al stack y regresa
 
 EvalGrados ENDP
