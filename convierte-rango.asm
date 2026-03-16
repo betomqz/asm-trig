@@ -1,8 +1,8 @@
 TITLE convierte-rango            (convierte-rango.asm)
 
-; Módulo para convertir grados del rango 0-360 al rango -90 a 90.
-; Al convertir a radianes, este rango reducido mejora la precisión
-; de las funciones seno y coseno calculadas por serie de Taylor.
+; Módulo para convertir grados del rango [0,360] al rango [-90,90] para seno o
+; [0,180] para coseno. Al convertir a radianes, estos rangos reducidos mejoran
+; un poco la precisión de las funciones calculadas por la serie de Taylor.
 
 INCLUDE Irvine32.inc
 
@@ -10,30 +10,30 @@ INCLUDE Irvine32.inc
 
 .CODE
 ; -------------------------------------------------------------------------------
-; ConvierteRango
-; Simplifica un ángulo en grados del rango [0, 360] al rango [-90, 90].
-; Este cambio permite que, al convertir a radianes, las series de Taylor
-; para seno y coseno converjan con mayor precisión.
+; ConvierteRangoSin
+; Simplifica un ángulo en grados del rango [0, 360] al rango [-90, 90]. Este
+; cambio permite que, al convertir a radianes, la serie de Taylor para seno
+; converja con mayor precisión.
 ;
 ; Recibe: [ESP+4] = x (ángulo en grados, entero, 0 <= x <= 360)
 ; Devuelve: [ESP+4] = ángulo simplificado (se sobreescribe el parámetro)
 ; No modifica registros de propósito general.
 ; -------------------------------------------------------------------------------
-PUBLIC ConvierteRango
-ConvierteRango PROC
+PUBLIC ConvierteRangoSin
+ConvierteRangoSin PROC
     PUSH EAX
     MOV  EAX, [ESP + 8]        ; EAX = x  (ret addr + EAX guardado)
 
     .IF EAX <= 180
         .IF EAX <= 90
             ; return x (ya está en su lugar)
-            JMP  salir
+            JMP  salirSin
         .ENDIF
         ; return 180 - x
         NEG  EAX
         ADD  EAX, 180
         MOV  [ESP + 8], EAX
-        JMP  salir
+        JMP  salirSin
     .ENDIF
 
     ; sabemos que x > 180
@@ -45,7 +45,7 @@ ConvierteRango PROC
         NEG  EAX
         ADD  EAX, 180
         MOV  [ESP + 8], EAX
-        JMP  salir
+        JMP  salirSin
     .ENDIF
 
     ; return x - 360
@@ -53,9 +53,39 @@ ConvierteRango PROC
     SUB  EAX, 360
     MOV  [ESP + 8], EAX
 
-salir:
+salirSin:
     POP  EAX
     RET
-ConvierteRango ENDP
+ConvierteRangoSin ENDP
+
+; -------------------------------------------------------------------------------
+; ConvierteRangoCos
+; Simplifica un ángulo en grados del rango [0, 360] al rango [0, 180]. Este
+; cambio permite que, al convertir a radianes, la serie de Taylor para coseno
+; converja con mayor precisión.
+;
+; Recibe: [ESP+4] = x (ángulo en grados, entero, 0 <= x <= 360)
+; Devuelve: [ESP+4] = ángulo simplificado (se sobreescribe el parámetro)
+; No modifica registros de propósito general.
+; -------------------------------------------------------------------------------
+PUBLIC ConvierteRangoCos
+ConvierteRangoCos PROC
+    PUSH EAX
+    MOV  EAX, [ESP + 8]        ; EAX = x  (ret addr + EAX guardado)
+
+    .IF EAX <= 180
+        ; return x (ya está en su lugar)
+        JMP  salirCos
+    .ENDIF
+
+    ; return 360 - x
+    NEG  EAX
+    ADD  EAX, 360
+    MOV  [ESP + 8], EAX
+
+salirCos:
+    POP  EAX
+    RET
+ConvierteRangoCos ENDP
 
 END

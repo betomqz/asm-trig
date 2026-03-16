@@ -40,6 +40,7 @@ PideRadianes PROC
 
     ; --- Guarda x y lo deja en ST(0) para EvalSinCos ---
     FST rad_x                   ; guarda x, ST(0) = x todavía
+    FLD ST(0)                   ; ST(0) = x,  ST(1) = x       (duplica x)
 
     ; --- Evalúa funciones trigonométricas ---
     CALL EvalSinCos
