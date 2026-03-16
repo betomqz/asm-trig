@@ -21,20 +21,19 @@ EXTERN SquareFloat:PROC
 ;       ST(1) = cos(x)
 ;       ST(2) = sin(x)
 ;
-; Entrada FPU:   ST(0) = x
+; Entrada FPU:   ST(0) = x_sin, ST(1) = x_cos
 ; Salida  FPU:   ST(0) = f1(x),  ST(1) = cos(x),  ST(2) = sin(x)
 ; -------------------------------------------------------------------------------
 PUBLIC EvalSinCos
 EvalSinCos PROC
 
     ; --- Calcula sin(x) ---
-    ; ST(0) = x
-    FLD ST(0)                   ; ST(0) = x,  ST(1) = x       (duplica x)
+    ; ST(0) = x_sin, ST(1) = x_cos
     PUSH 10                     ; n términos de la serie de Taylor
-    CALL SinFloat               ; ST(0) = sin(x),  ST(1) = x
+    CALL SinFloat               ; ST(0) = sin(x),  ST(1) = x_cos
 
     ; --- Calcula cos(x) ---
-    FXCH ST(1)                  ; ST(0) = x,  ST(1) = sin(x)
+    FXCH ST(1)                  ; ST(0) = x_cos,  ST(1) = sin(x)
     PUSH 10                     ; n términos de la serie de Taylor
     CALL CosFloat               ; ST(0) = cos(x),  ST(1) = sin(x)
 
