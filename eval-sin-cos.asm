@@ -28,9 +28,6 @@ PUBLIC EvalSinCos
 EvalSinCos PROC
 
     ; --- Calcula sin(x) ---
-    ; ST(0) = x
-    ; FLD ST(0)                   ; ST(0) = x,  ST(1) = x       (duplica x)
-
     ; ST(0) = x_sin, ST(1) = x_cos
     PUSH 10                     ; n términos de la serie de Taylor
     CALL SinFloat               ; ST(0) = sin(x),  ST(1) = x_cos
