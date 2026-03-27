@@ -10,6 +10,8 @@ EXTERN TablaGrados:PROC
 
 
 .DATA
+startTime       DWORD ?
+tiemStr         BYTE "Milisegundos transcurridos: ",0
 adios           BYTE 0dh,0ah,"Adiós.",0
 
 PUBLIC strComa
@@ -29,6 +31,9 @@ strDivOut       BYTE 80 DUP("-"),0
 ; -------------------------------------------------------------------------------
 main PROC
     finit                       ; inicializa el FPU
+
+    CALL GetMseconds
+    MOV  startTime, EAX
 
     MOV  EAX, 0
     .WHILE EAX == 0
@@ -54,6 +59,13 @@ main PROC
             MOV  EAX, 1
         .ENDIF
     .ENDW
+
+    CALL GetMseconds
+    SUB  EAX, startTime
+    MOV  EDX, offset tiemStr
+    CALL WriteString
+    CALL WriteDec
+    CALL CrLf
 
     ; Despedida
     MOV  EDX, OFFSET adios
