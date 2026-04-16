@@ -5,7 +5,7 @@ TITLE sine-n            (sine-n.asm)
 
 INCLUDE Irvine32.inc
 
-EXTERN SquareFloat:PROC
+EXTERN SquareFloat@0:PROC
 
 .DATA
 
@@ -39,7 +39,7 @@ SinFloat PROC
     ; --- Calcular -x^2 y guardarlo como constante del loop ---
     ; ST(0) = x al entrar
     FLD  ST(0)                 ; ST(0)=x, ST(1)=x
-    CALL SquareFloat           ; ST(0)=x^2, ST(1)=x
+    CALL SquareFloat@0         ; ST(0)=x^2, ST(1)=x
     FCHS                       ; ST(0)=-x^2, ST(1)=x
 
     ; Stack FPU: ST(0)=-x^2, ST(1)=x

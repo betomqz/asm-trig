@@ -5,9 +5,9 @@ TITLE eval-sin-cos            (eval-sin-cos.asm)
 
 INCLUDE Irvine32.inc
 
-EXTERN SinFloat:PROC
-EXTERN CosFloat:PROC
-EXTERN SquareFloat:PROC
+EXTERN SinFloat@0:PROC
+EXTERN CosFloat@0:PROC
+EXTERN SquareFloat@0:PROC
 
 .DATA
 
@@ -30,21 +30,21 @@ EvalSinCos PROC
     ; --- Calcula sin(x) ---
     ; ST(0) = x_sin, ST(1) = x_cos
     PUSH 10                     ; n términos de la serie de Taylor
-    CALL SinFloat               ; ST(0) = sin(x),  ST(1) = x_cos
+    CALL SinFloat@0             ; ST(0) = sin(x),  ST(1) = x_cos
 
     ; --- Calcula cos(x) ---
     FXCH ST(1)                  ; ST(0) = x_cos,  ST(1) = sin(x)
     PUSH 10                     ; n términos de la serie de Taylor
-    CALL CosFloat               ; ST(0) = cos(x),  ST(1) = sin(x)
+    CALL CosFloat@0             ; ST(0) = cos(x),  ST(1) = sin(x)
 
     ; --- Calcula f1 = sin^2(x) + cos^2(x) ---
     ; Primero: sin^2(x)
     FLD ST(1)                   ; ST(0) = sin(x),  ST(1) = cos(x),  ST(2) = sin(x)
-    CALL SquareFloat            ; ST(0) = sin^2(x), ST(1) = cos(x),  ST(2) = sin(x)
+    CALL SquareFloat@0          ; ST(0) = sin^2(x), ST(1) = cos(x),  ST(2) = sin(x)
 
     ; Segundo: cos^2(x)
     FLD ST(1)                   ; ST(0) = cos(x),  ST(1) = sin^2(x), ST(2) = cos(x), ST(3) = sin(x)
-    CALL SquareFloat            ; ST(0) = cos^2(x), ST(1) = sin^2(x), ST(2) = cos(x), ST(3) = sin(x)
+    CALL SquareFloat@0          ; ST(0) = cos^2(x), ST(1) = sin^2(x), ST(2) = cos(x), ST(3) = sin(x)
 
     ; Suma: f1 = sin^2(x) + cos^2(x)
     FADD                        ; ST(0) = f1,  ST(1) = cos(x),  ST(2) = sin(x)

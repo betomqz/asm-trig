@@ -5,8 +5,8 @@ TITLE pide-grados            (pide-grados.asm)
 
 INCLUDE Irvine32.inc
 
-EXTERN EvalGrados:PROC
-EXTERN ImprimeGrados:PROC
+EXTERN EvalGrados@0:PROC
+EXTERN ImprimeGrados@0:PROC
 
 EXTERN strDivOut:BYTE
 
@@ -49,11 +49,11 @@ PideGrados PROC
 
     ; --- Evalúa funciones trigonométricas ---
     PUSH deg_val
-    CALL EvalGrados
+    CALL EvalGrados@0
 
     ; --- Manda a imprimir los valores almacenados en el FPU stack ---
     PUSH deg_val
-    CALL ImprimeGrados
+    CALL ImprimeGrados@0
 
     ; --- Línea divisoria final ---
     MOV EDX, OFFSET strDivOut

@@ -4,9 +4,9 @@ TITLE main            (main.asm)
 
 INCLUDE Irvine32.inc
 
-EXTERN PideRadianes:PROC
-EXTERN PideGrados:PROC
-EXTERN TablaGrados:PROC
+EXTERN PideRadianes@0:PROC
+EXTERN PideGrados@0:PROC
+EXTERN TablaGrados@0:PROC
 
 
 .DATA
@@ -41,13 +41,13 @@ main PROC
 
         ; --- Ejecuta acción seleccionada ---
         .IF EAX == 1
-            CALL PideGrados
+            CALL PideGrados@0
             MOV  EAX, 0
         .ELSEIF EAX == 2
-            CALL PideRadianes
+            CALL PideRadianes@0
             MOV  EAX, 0
         .ELSEIF EAX == 3
-            CALL TablaGrados
+            CALL TablaGrados@0
             MOV  EAX, 0
         .ELSE
             ; --- Rompe el loop ---

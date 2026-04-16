@@ -5,7 +5,7 @@ TITLE cosine-n            (cosine-n.asm)
 
 INCLUDE Irvine32.inc
 
-EXTERN SquareFloat:PROC
+EXTERN SquareFloat@0:PROC
 
 .DATA
 
@@ -34,7 +34,7 @@ CosFloat PROC
 
     ; Calcular -x^2
     ; ST(0) = x al entrar
-    CALL SquareFloat            ; ST(0) = x^2
+    CALL SquareFloat@0          ; ST(0) = x^2
     FCHS                        ; ST(0) = -x^2
 
     ; Stack FPU: ST(0)=-x^2

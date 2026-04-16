@@ -4,8 +4,8 @@ TITLE tabla-grados            (tabla-grados.asm)
 
 INCLUDE Irvine32.inc
 
-EXTERN EvalGrados:PROC
-EXTERN ImprimeGrados:PROC
+EXTERN EvalGrados@0:PROC
+EXTERN ImprimeGrados@0:PROC
 
 EXTERN strDivOut:BYTE
 EXTERN strHeaderDeg:BYTE
@@ -41,11 +41,11 @@ TablaGrados PROC
 
         ; --- Evalúa funciones trigonométricas ---
         PUSH ECX
-        CALL EvalGrados
+        CALL EvalGrados@0
 
         ; --- Manda a imprimir los valores almacenados en el FPU stack ---
         PUSH ECX
-        CALL ImprimeGrados
+        CALL ImprimeGrados@0
 
         ; --- Incrementa en saltos de 10 ---
         ADD ECX, 10

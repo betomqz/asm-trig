@@ -5,7 +5,7 @@ TITLE pide-radianes            (pide-radianes.asm)
 
 INCLUDE Irvine32.inc
 
-EXTERN EvalSinCos:PROC
+EXTERN EvalSinCos@0:PROC
 
 EXTERN strComa:BYTE
 EXTERN strDivOut:BYTE
@@ -43,7 +43,7 @@ PideRadianes PROC
     FLD ST(0)                   ; ST(0) = x,  ST(1) = x       (duplica x)
 
     ; --- Evalúa funciones trigonométricas ---
-    CALL EvalSinCos
+    CALL EvalSinCos@0
 
     ; --- Guarda resultados y limpia el FPU ---
     FSTP rad_f1                 ; guarda f1;   ST(0) = cos(x), ST(1) = sin(x)

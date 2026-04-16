@@ -5,9 +5,9 @@ TITLE eval-grados            (eval-grados.asm)
 
 INCLUDE Irvine32.inc
 
-EXTERN ConvierteRangoSin:PROC
-EXTERN ConvierteRangoCos:PROC
-EXTERN EvalSinCos:PROC
+EXTERN ConvierteRangoSin@0:PROC
+EXTERN ConvierteRangoCos@0:PROC
+EXTERN EvalSinCos@0:PROC
 
 .DATA
 val180  DWORD 180
@@ -49,12 +49,12 @@ EvalGrados PROC
 
     ; --- Simplifica grados para seno ---
     PUSH EAX                    ; push deg como parámetro para ConvierteRangoSin
-    CALL ConvierteRangoSin      ; [ESP] = deg_simp_sin (sobreescrito)
+    CALL ConvierteRangoSin@0    ; [ESP] = deg_simp_sin (sobreescrito)
     POP  EAX                    ; EAX = deg_simp_sin
 
     ; --- Simplifica grados para coseno ---
     PUSH EBX                    ; push deg como parámetro para ConvierteRangoCos
-    CALL ConvierteRangoCos      ; [ESP] = deg_simp_cos (sobreescrito)
+    CALL ConvierteRangoCos@0    ; [ESP] = deg_simp_cos (sobreescrito)
     POP  EBX                    ; EBX = deg_simp_cos
 
     ; --- Calcula rad_simp = deg_simp * pi / 180 ---
@@ -74,7 +74,7 @@ EvalGrados PROC
     FMULP ST(1), ST(0)          ; ST(0) = rad_simp_sin,  ST(1) = rad_simp_cos,  ST(2) = rad_true
 
     ; --- Evalúa sin, cos, f1 usando rad_simp ---
-    CALL EvalSinCos
+    CALL EvalSinCos@0
     ; ST(0) = f1,  ST(1) = cos(x),  ST(2) = sin(x),  ST(3) = rad_true
 
     POP  EBX                    ; restaura EBX
