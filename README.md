@@ -22,8 +22,9 @@ The `irvingt` directory should be placed in this project's root directory so
 that the [Makefile](/Makefile) can link against the generated library.
 
 **Note**: Some slight modifications are needed to implement functions such as
-`WriteFloat`. I may or may not submit a PR for that, but it's relatively easy to
-write your own implementation.
+`WriteFloat`. The changes I made myself (with a little help from Claude Code)
+are published in [this fork](https://github.com/betomqz/irvingt) of the IrvingT
+project.
 
 To compile IrvingT, run `make` inside the `irvingt` directory:
 ```sh
